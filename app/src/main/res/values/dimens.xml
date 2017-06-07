@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="user_avatar_size">40sp</dimen>
+    <dimen name="post_user_height">72sp</dimen>
+    <dimen name="avatar_margin">16sp</dimen>
+    <dimen name="user_text_size">14sp</dimen>
+</resources>

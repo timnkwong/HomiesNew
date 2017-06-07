@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1083763464694",
+    "firebase_url": "https://homies-783a5.firebaseio.com",
+    "project_id": "homies-783a5",
+    "storage_bucket": "homies-783a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083763464694:android:07acaa2c6181b0eb",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs190i.rkuang.homies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083763464694-6ft08klaj1sv4cqd8knggval5ltaef8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.rkuang.homies",
+            "certificate_hash": "2101e8d06d90102dedd6675db2de90b1db070100"
+          }
+        },
+        {
+          "client_id": "1083763464694-525llsfr6mnm0qu7afu147d3kepk9b7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9GPpLCIX8gsbzzUoRuaJHrZ6saKSUy0w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083763464694-525llsfr6mnm0qu7afu147d3kepk9b7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
