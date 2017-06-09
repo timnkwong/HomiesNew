@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
+
 import edu.ucsb.cs.cs190i.rkuang.homies.R;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.Item;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
@@ -69,7 +71,7 @@ public class CreatePostFragment extends DialogFragment {
                     String photoURL = user.getPhotoUrl().toString();
                     String uid = user.getUid();
 
-                    Item i = new Item(new User(name, photoURL, uid), description);
+                    Item i = new Item(new User(name, photoURL, uid), description, UUID.randomUUID().toString());
                     db.child("items").child(i.getId()).setValue(i);
                     me.getDialog().hide();
                 } else {

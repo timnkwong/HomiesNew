@@ -58,6 +58,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mData.size();
     }
 
+    public void addItem(int position, Item item) {
+        mData.add(position, item);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(Item item) {
+        mData.remove(item);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView userTextView;
         public TextView dateTextView;
@@ -78,10 +88,5 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public void onClick(View v) {
 
         }
-    }
-
-    public void addItem(int position, Item item) {
-        mData.add(position, item);
-        notifyDataSetChanged();
     }
 }

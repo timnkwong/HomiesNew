@@ -32,4 +32,10 @@ public class User {
     public String getUid() {
         return uid;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        User o = (User) obj;
+        return this.uid.equals(o.uid);
+    }
 }

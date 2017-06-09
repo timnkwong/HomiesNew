@@ -18,13 +18,13 @@ public class Item {
 
     }
 
-    public Item(User user, String description) {
+    public Item(User user, String description, String id) {
         Calendar c = Calendar.getInstance();
 
         this.user = user;
         this.date = c.getTimeInMillis();
         this.description = description;
-        this.id = UUID.randomUUID().toString();
+        this.id = id;
     }
 
     public User getUser() {
@@ -49,5 +49,11 @@ public class Item {
                 "date = "+ getDate() + ", " +
                 "item = "+ getDescription() +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Item o = (Item) obj;
+        return this.id.equals(o.getId());
     }
 }
