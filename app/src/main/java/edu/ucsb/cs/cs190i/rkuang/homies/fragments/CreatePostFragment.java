@@ -17,6 +17,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,6 +33,7 @@ import static edu.ucsb.cs.cs190i.rkuang.homies.R.layout.fragment_create_post;
 public class CreatePostFragment extends DialogFragment {
 
     DatabaseReference db;
+    FirebaseUser user;
 
     public CreatePostFragment() {
 
@@ -45,6 +49,8 @@ public class CreatePostFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         return inflater.inflate(fragment_create_post, container, false);
     }
 
@@ -59,7 +65,11 @@ public class CreatePostFragment extends DialogFragment {
                 Log.i(TAG, "onClick: post message button clicked");
                 String description = editText.getText().toString();
                 if (description.length() != 0) {
-                    Item i = new Item(new User("John Doe"), description);
+                    String name = user.getDisplayName();
+                    String photoURL = user.getPhotoUrl().toString();
+                    String uid = user.getUid();
+
+                    Item i = new Item(new User(name, photoURL, uid), description);
                     db.child("items").child(i.getId()).setValue(i);
                     me.getDialog().hide();
                 } else {

@@ -8,18 +8,16 @@ public class User {
 
     private String name;
     private String imageURL;
+    private String uid;
 
     public User() {
 
     }
 
-    public User(String name) {
-        this.name = name;
-    }
-
-    public User(String name, String url) {
+    public User(String name, String url, String uid) {
         this.name = name;
         this.imageURL = url;
+        this.uid = uid;
     }
 
 
@@ -29,5 +27,9 @@ public class User {
 
     public String getImageURL() {
         return imageURL;
+    }
+
+    public String getUid() {
+        return uid;
     }
 }

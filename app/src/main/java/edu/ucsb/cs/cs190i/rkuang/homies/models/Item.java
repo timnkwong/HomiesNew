@@ -1,7 +1,6 @@
 package edu.ucsb.cs.cs190i.rkuang.homies.models;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -11,7 +10,7 @@ import java.util.UUID;
 public class Item {
 
     private User user;
-    private Date date;
+    private long date;
     private String description;
     private String id;
 
@@ -23,7 +22,7 @@ public class Item {
         Calendar c = Calendar.getInstance();
 
         this.user = user;
-        this.date = new Date(c.getTimeInMillis());
+        this.date = c.getTimeInMillis();
         this.description = description;
         this.id = UUID.randomUUID().toString();
     }
@@ -32,12 +31,16 @@ public class Item {
         return user;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -46,9 +49,5 @@ public class Item {
                 "date = "+ getDate() + ", " +
                 "item = "+ getDescription() +
                 "}";
-    }
-
-    public String getId() {
-        return id;
     }
 }
