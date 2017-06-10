@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.UUID;
 
 import edu.ucsb.cs.cs190i.rkuang.homies.R;
+import edu.ucsb.cs.cs190i.rkuang.homies.adapters.PostAdapter;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.Item;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
 
@@ -67,13 +68,14 @@ public class CreatePostFragment extends DialogFragment {
                 Log.i(TAG, "onClick: post message button clicked");
                 String description = editText.getText().toString();
                 if (description.length() != 0) {
+                    PostAdapter.new_post = true;
                     String name = user.getDisplayName();
                     String photoURL = user.getPhotoUrl().toString();
                     String uid = user.getUid();
 
                     Item i = new Item(new User(name, photoURL, uid), description, UUID.randomUUID().toString());
                     db.child("items").child(i.getId()).setValue(i);
-                    me.getDialog().hide();
+                    me.getDialog().dismiss();
                 } else {
                     Snackbar.make(me.getView(), "Enter a description", Snackbar.LENGTH_SHORT).show();
                 }

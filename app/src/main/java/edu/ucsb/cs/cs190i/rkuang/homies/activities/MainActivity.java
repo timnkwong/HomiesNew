@@ -11,13 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ImageView nav_avatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
+        TextView nav_name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
+        TextView nav_email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+
         db = FirebaseDatabase.getInstance();
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -66,10 +70,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         } else {
             String name = firebaseUser.getDisplayName();
+            String email = firebaseUser.getEmail();
             String photoURL = firebaseUser.getPhotoUrl().toString();
             String uid = firebaseUser.getUid();
 
-            Picasso.with(this).load(photoURL).into((ImageView) navigationView.getHeaderView(0).findViewById(R.id.my_avatar));
+            Picasso.with(this).load(photoURL).into(nav_avatar);
+            nav_name.setText(name);
+            nav_email.setText(email);
+
             User u = new User(name, photoURL, uid);
             db.getReference().child("users").child(u.getUid()).setValue(u);
         }
@@ -99,9 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_sign_out) {
             firebaseAuth.signOut();
             Auth.GoogleSignInApi.signOut(googleApiClient);
             startActivity(new Intent(this, SignInActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));

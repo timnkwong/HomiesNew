@@ -1,13 +1,23 @@
 package edu.ucsb.cs.cs190i.rkuang.homies.adapters;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -16,6 +26,7 @@ import java.util.Locale;
 
 import edu.ucsb.cs.cs190i.rkuang.homies.R;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.Item;
+import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
 
 import static android.content.ContentValues.TAG;
 
@@ -27,30 +38,68 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     ArrayList<Item> mData;
     SimpleDateFormat dateFormat;
+    Context mContext;
+    public static boolean new_post;
 
     public PostAdapter() {
         mData = new ArrayList<>();
         dateFormat = new SimpleDateFormat("hh:mm a, MM/dd/yyyy", Locale.US);
+        new_post = false;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout , parent, false);
+        mContext = view.getContext();
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        String userName = mData.get(position).getUser().getName();
-        String date = dateFormat.format(mData.get(position).getDate());
-        String description = mData.get(position).getDescription();
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        final Item item = mData.get(position);
+        final User user = item.getUser();
 
-        holder.userTextView.setText(userName);
+        String username = item.getUser().getName();
+        String date = dateFormat.format(item.getDate());
+        String description = item.getDescription();
+
+        holder.userTextView.setText(username);
         holder.dateTextView.setText(date);
         holder.itemTextView.setText(description);
 
         String avatarURL = mData.get(position).getUser().getImageURL();
         Picasso.with(holder.userAvatar.getContext()).load(avatarURL).into(holder.userAvatar);
+
+        if (firebaseUser.getUid().equals(user.getUid())) {
+            holder.delete.setVisibility(View.VISIBLE);
+        } else {
+            holder.delete.setVisibility(View.INVISIBLE);
+        }
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (firebaseUser.getUid().equals(user.getUid())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setMessage("Are you sure you want to delete this post?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("items");
+                                    db.child(item.getId()).removeValue();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -58,22 +107,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mData.size();
     }
 
-    public void addItem(int position, Item item) {
-        mData.add(position, item);
-        notifyDataSetChanged();
+    public void addItem(Item item) {
+        mData.add(0, item);
+        notifyItemInserted(0);
     }
 
     public void removeItem(Item item) {
+        Log.i(TAG, "removeItem: "+mData.indexOf(item));
+        int position = mData.indexOf(item);
+
         mData.remove(item);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView userTextView;
         public TextView dateTextView;
         public TextView itemTextView;
 
         public ImageView userAvatar;
+
+        public ImageButton delete;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -82,11 +137,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             itemTextView = (TextView) itemView.findViewById(R.id.item_textview);
 
             userAvatar = (ImageView) itemView.findViewById(R.id.user_avatar);
-        }
 
-        @Override
-        public void onClick(View v) {
-
+            delete = (ImageButton) itemView.findViewById(R.id.delete_button);
         }
     }
 }

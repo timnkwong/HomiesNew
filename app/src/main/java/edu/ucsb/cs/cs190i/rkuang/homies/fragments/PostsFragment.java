@@ -69,7 +69,7 @@ public class PostsFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Item item = dataSnapshot.getValue(Item.class);
-                postAdapter.addItem(0, item);
+                postAdapter.addItem(item);
                 recyclerView.scrollToPosition(0);
             }
 
