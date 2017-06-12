@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,17 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import edu.ucsb.cs.cs190i.rkuang.homies.R;
+import edu.ucsb.cs.cs190i.rkuang.homies.fragments.UserProfileFragment;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private FirebaseDatabase db;
-
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-
     private GoogleApiClient googleApiClient;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +48,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         ImageView nav_avatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
+        nav_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, UserProfileFragment.class));
+            }
+        });
         TextView nav_name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
         TextView nav_email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
 
-        db = FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -62,12 +65,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser == null) {
             startActivity(new Intent(this, SignInActivity.class));
             finish();
-            return;
         } else {
             String name = firebaseUser.getDisplayName();
             String email = firebaseUser.getEmail();
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

@@ -1,9 +1,7 @@
 package edu.ucsb.cs.cs190i.rkuang.homies.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -13,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +40,6 @@ public class PostsFragment extends Fragment {
     private DatabaseReference itemsRef;
     private DatabaseReference eventsRef;
 
-    private GoogleApiClient googleApiClient;
 
     public PostsFragment() {
         // Required empty public constructor

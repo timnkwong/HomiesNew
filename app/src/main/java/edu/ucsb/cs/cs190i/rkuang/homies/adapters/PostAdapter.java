@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,14 +29,14 @@ import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by ricky on 6/5/17.
+ * Adapter for Items RecyclerView on PostsFragment
  */
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    ArrayList<Item> mData;
-    SimpleDateFormat dateFormat;
-    Context mContext;
+    private ArrayList<Item> mData;
+    private SimpleDateFormat dateFormat;
+    private Context mContext;
     public static boolean new_post;
 
     public PostAdapter() {
@@ -70,6 +68,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         String avatarURL = mData.get(position).getUser().getImageURL();
         Picasso.with(holder.userAvatar.getContext()).load(avatarURL).into(holder.userAvatar);
+        holder.userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         if (firebaseUser.getUid().equals(user.getUid())) {
             holder.delete.setVisibility(View.VISIBLE);
@@ -122,16 +126,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         notifyItemRangeChanged(position, getItemCount());
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView userTextView;
-        public TextView dateTextView;
-        public TextView itemTextView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView userTextView;
+        TextView dateTextView;
+        TextView itemTextView;
 
-        public ImageView userAvatar;
+        ImageView userAvatar;
 
-        public ImageButton delete;
+        ImageButton delete;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             userTextView = (TextView) itemView.findViewById(R.id.user_textview);
             dateTextView = (TextView) itemView.findViewById(R.id.date_textview);
