@@ -1,10 +1,11 @@
 package edu.ucsb.cs.cs190i.rkuang.homies.models;
 
 import java.util.Calendar;
-import java.util.UUID;
 
 /**
- * Created by ricky on 6/5/17.
+ * Item class. User can create Items with a description
+ * Items are attached to Users.
+ * Items are unique by UUID
  */
 
 public class Item {
@@ -15,7 +16,7 @@ public class Item {
     private String id;
 
     public Item() {
-
+        // Required Empty Constructor for Firebase
     }
 
     public Item(User user, String description, String id) {
@@ -53,7 +54,10 @@ public class Item {
 
     @Override
     public boolean equals(Object obj) {
-        Item o = (Item) obj;
-        return this.id.equals(o.getId());
+        if (obj instanceof Item) {
+            Item o = (Item) obj;
+            return this.id.equals(o.getId());
+        }
+        return false;
     }
 }

@@ -1,7 +1,7 @@
 package edu.ucsb.cs.cs190i.rkuang.homies.models;
 
 /**
- * Created by ricky on 6/5/17.
+ * Users for identifying items and groups (to be implemented)
  */
 
 public class User {
@@ -11,7 +11,7 @@ public class User {
     private String uid;
 
     public User() {
-
+        // Required empty constructor for Firebase
     }
 
     public User(String name, String url, String uid) {
@@ -35,7 +35,10 @@ public class User {
 
     @Override
     public boolean equals(Object obj) {
-        User o = (User) obj;
-        return this.uid.equals(o.uid);
+        if (obj instanceof User) {
+            User o = (User) obj;
+            return this.uid.equals(o.uid);
+        }
+        return false;
     }
 }

@@ -14,4 +14,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="username">Username: </string>
+    <string name="useremail">Email: </string>
+    <string name="userid">ID: </string>
+
+    <string name="editpic">Edit Profile Picture</string>
+    <string name="cam">Take Profile Picture</string>
+    <string name="gallery">Take From Gallery</string>
 </resources>
