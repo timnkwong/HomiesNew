@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import edu.ucsb.cs.cs190i.rkuang.homies.R;
+import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
 
 import static edu.ucsb.cs.cs190i.rkuang.homies.R.layout.fragment_user_profile;
 
@@ -51,20 +52,20 @@ public class UserProfileFragment extends DialogFragment {
         TextView username     = (TextView)  view.findViewById(R.id.username);
         TextView user_email   = (TextView)  view.findViewById(R.id.email);
 
+        Bundle b = this.getArguments();
+
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("users");
-        db.child(uid)
 
-        String name = firebaseUser.getDisplayName();
-        String email = firebaseUser.getEmail();
-        final String photoURL = firebaseUser.getPhotoUrl().toString();
-        String uid = firebaseUser.getUid();
-
-        Picasso.with(this).load(photoURL).resize(500,500).into(profile_pic);
+        String name = b.getString("name");
+        //String email = db.child(uid).child("name").toString(); //WILL NOT WORK BECAUSE EMAIL NOT STORED ON DB
+        String photoURL = b.getString("pic");
+//                String thisUid = b.getString("pic");
+        Picasso.with(this.getContext()).load(photoURL).resize(500,500).into(profile_pic);
         String dispUname = username.getText() + " " + name;
-        String dispUmail = user_email.getText() + " " + email;
-        String dispUid = userid.getText() + " " + uid;
+        //String dispUmail = user_email.getText() + " " + email;
+        //String dispUid = userid.getText() + " " + uid;
         username.setText(dispUname);
-        user_email.setText(dispUmail);
-        userid.setText(dispUid);
+        //user_email.setText(dispUmail);
+        //userid.setText(dispUid);
     }
 }

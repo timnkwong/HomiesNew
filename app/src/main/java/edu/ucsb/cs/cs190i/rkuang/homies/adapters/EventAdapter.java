@@ -134,4 +134,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public void onClick(View v) {
             }
     }
+
+    public boolean isEmpty(){
+        if(getItemCount() == 0) return true;
+        Log.i(TAG, "isEmpty: " + getItemCount());
+        return false;
+    }
 }
