@@ -8,11 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,51 +24,45 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import edu.ucsb.cs.cs190i.rkuang.homies.R;
+import edu.ucsb.cs.cs190i.rkuang.homies.models.Event;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.Item;
 import edu.ucsb.cs.cs190i.rkuang.homies.models.User;
 
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by ricky on 6/5/17.
+ * Created by Timothy Kwong on 6/9/2017.
  */
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-
-    ArrayList<Item> mData;
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
+    ArrayList<Event> mData;
     SimpleDateFormat dateFormat;
     Context mContext;
     public static boolean new_post;
 
-    public PostAdapter() {
+    public EventAdapter() {
         mData = new ArrayList<>();
-        dateFormat = new SimpleDateFormat("hh:mm a, MM/dd/yyyy", Locale.US);
         new_post = false;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout , parent, false);
+    public EventAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_layout_simple , parent, false);
         mContext = view.getContext();
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(EventAdapter.ViewHolder holder, int position) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final Item item = mData.get(position);
-        final User user = item.getUser();
+        final Event event = mData.get(position);
+        final User user = event.getUser();
 
-        String username = item.getUser().getName();
-        String date = dateFormat.format(item.getDate());
-        String description = item.getDescription();
+        String name = event.getEventName();
+        String time = event.getEventTime();
 
-        holder.userTextView.setText(username);
-        holder.dateTextView.setText(date);
-        holder.itemTextView.setText(description);
-
-        String avatarURL = mData.get(position).getUser().getImageURL();
-        Picasso.with(holder.userAvatar.getContext()).load(avatarURL).into(holder.userAvatar);
+        holder.eventTextView.setText(name);
+        holder.dateTimeTextView.setText(time);
 
         if (firebaseUser.getUid().equals(user.getUid())) {
             holder.delete.setVisibility(View.VISIBLE);
@@ -86,8 +79,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("items");
-                                    db.child(item.getId()).removeValue();
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("events");
+                                    db.child(event.getId()).removeValue();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -107,39 +100,38 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mData.size();
     }
 
-    public void addItem(Item item) {
-        mData.add(0, item);
-        Log.i(TAG, "addItem: Item added at " + mData.indexOf(item));
+    public void addItem(Event event) {
+        mData.add(0, event);
+        Log.i(TAG, "addItem: Event added at " + mData.indexOf(event));
         notifyItemInserted(0);
     }
 
-    public void removeItem(Item item) {
-        Log.i(TAG, "removeItem: "+mData.indexOf(item));
-        int position = mData.indexOf(item);
+    public void removeEvent(Event event) {
+        Log.i(TAG, "removeItem: "+mData.indexOf(event));
+        int position = mData.indexOf(event);
 
-        mData.remove(item);
+        mData.remove(event);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView userTextView;
-        public TextView dateTextView;
-        public TextView itemTextView;
-
-        public ImageView userAvatar;
-
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView eventTextView;
+        public TextView dateTimeTextView;
         public ImageButton delete;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            userTextView = (TextView) itemView.findViewById(R.id.user_textview);
-            dateTextView = (TextView) itemView.findViewById(R.id.date_textview);
-            itemTextView = (TextView) itemView.findViewById(R.id.item_textview);
 
-            userAvatar = (ImageView) itemView.findViewById(R.id.user_avatar);
+        public ViewHolder(View eventView) {
+            super(eventView);
+            eventTextView = (TextView) eventView.findViewById(R.id.eventname_textview);
+            dateTimeTextView = (TextView) eventView.findViewById(R.id.datetime_textview);
+            delete = (ImageButton) eventView.findViewById(R.id.delete_button2);
 
-            delete = (ImageButton) itemView.findViewById(R.id.delete_button);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            }
     }
 }

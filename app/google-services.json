@@ -15,6 +15,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "1083763464694-02s0g1t62slf27n66ekf6aglcb3c80bh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.rkuang.homies",
+            "certificate_hash": "092c0a67272a590b4ba1709d3f5af4917a07d912"
+          }
+        },
+        {
+          "client_id": "1083763464694-8mubauqa7q2blkprbvr8d8ablfghfbqm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.rkuang.homies",
+            "certificate_hash": "61fa17af90a1049046977ec1068b23a8e82150dc"
+          }
+        },
+        {
+          "client_id": "1083763464694-0q44qo9ncakjmk0svqr3b1t7jvk9j7vo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.rkuang.homies",
+            "certificate_hash": "ef291c7ba816802f3a316ed81d76d78874e76066"
+          }
+        },
+        {
+          "client_id": "1083763464694-h9ec1jb7nag1g7kn0sls8p3fq11b8dth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs190i.rkuang.homies",
+            "certificate_hash": "cf3c5fbc48f02ac5a7ad11fdb67de00d9fc891f0"
+          }
+        },
+        {
           "client_id": "1083763464694-6ft08klaj1sv4cqd8knggval5ltaef8n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
